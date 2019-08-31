@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
   name: 'Login',
   data() {
@@ -45,7 +47,17 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push({ name: 'home' });
+      // this.$router.push({ name: 'home' });
+      this.addUserToFirebase();
+    },
+    addUserToFirebase() {
+      if (this.form.email && this.form.password) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .then(user => console.log(user, ' foi criado'))
+          .catch(err => console.log('Ops, ', err.message));
+      }
     },
   },
 };
