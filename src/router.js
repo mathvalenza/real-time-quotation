@@ -10,37 +10,39 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [{
-    path: '*',
-    redirect: '/login',
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: Home,
-    meta: {
-      requiresAuth: true,
+  routes: [
+    {
+      path: '/home',
+      name: 'home',
+      component: Home,
+      meta: {
+        requiresAuth: true,
+      },
     },
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login,
-  },
-  {
-    path: '/sign_up',
-    name: 'signUp',
-    component: SignUp,
-  },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+    },
+    {
+      path: '/sign_up',
+      name: 'signUp',
+      component: SignUp,
+    },
+    {
+      path: '*',
+      redirect: '/login',
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  const { currentUser } = firebase.auth();
+  const isLogged = firebase.auth().currentUser || sessionStorage.getItem('userEmail');
   const requiresAuth = to.matched.some(route => route.meta.requiresAuth);
 
-  if (requiresAuth && !currentUser) {
+  if (requiresAuth && !isLogged) {
     next('login');
+    sessionStorage.removeItem('userEmail');
   } else {
     next();
   }
