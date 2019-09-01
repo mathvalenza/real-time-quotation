@@ -27,7 +27,9 @@
       </v-list-item-content>
     </v-list-item>
     <v-card-actions>
-      <v-btn text>Ver mais</v-btn>
+      <v-btn depressed @click="onShowMore">
+        <v-icon left>mdi-information-outline</v-icon>Ver mais
+      </v-btn>
       <div class="flex-grow-1"></div>
       <div class="justify-end caption grey--text">Atualizado {{ updateTime }}</div>
     </v-card-actions>
@@ -61,6 +63,11 @@ export default {
       return this.currencyFormat === BRASILIAN_CURRENCY
         ? 'R$'
         : 'USD';
+    },
+  },
+  methods: {
+    onShowMore() {
+      this.$emit('show-more');
     },
   },
 };

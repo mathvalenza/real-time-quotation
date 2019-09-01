@@ -10,6 +10,7 @@
               update-time="09:40"
               :variation="currency.variation"
               :price="currency.buy"
+              @show-more="onShowMore(currencies, currency)"
             />
           </div>
           <div class="ma-6 pa-6" v-for="bitcoin in bitcoins" :key="bitcoin.name">
@@ -20,26 +21,32 @@
               :variation="bitcoin.variation"
               :price="bitcoin.last"
               :currency-format="bitcoin.format[0]"
+              @show-more="onShowMore(bitcoins, bitcoin)"
             />
           </div>
         </v-row>
       </v-col>
     </v-row>
+    <history-info v-if="showHistoryInfo" :item="selectedItem" @close="toggleShowHistoryInfo" />
   </v-container>
 </template>
 
 <script>
 import mock from '../apiService';
 import QuotationCard from '@/components/QuotationCard.vue';
+import HistoryInfo from '@/components/HistoryInfo.vue';
 
 export default {
   name: 'Home',
   components: {
     QuotationCard,
+    HistoryInfo,
   },
   data() {
     return {
       mock,
+      showHistoryInfo: false,
+      selectedItem: null,
     };
   },
   computed: {
@@ -54,7 +61,7 @@ export default {
       return currencies;
     },
     bitcoins() {
-      const targetBitcoins = ['foxbit', 'omnitrade', 'xdex', 'coinbase'];
+      const targetBitcoins = ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'];
       const bitcoins = [];
 
       targetBitcoins.forEach(targetBitcoin => (bitcoins.push(
@@ -62,6 +69,17 @@ export default {
       )));
 
       return bitcoins;
+    },
+  },
+  methods: {
+    onShowMore(source, item) {
+      console.log('show more info about ', item, 'in ', source);
+
+      this.selectedItem = item;
+      this.toggleShowHistoryInfo();
+    },
+    toggleShowHistoryInfo() {
+      this.showHistoryInfo = !this.showHistoryInfo;
     },
   },
 };
