@@ -19,8 +19,8 @@ export default {
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
-          .then(user => this.$router.push({ name: 'home' }))
-          .catch(error => console.log('Ops, ', error.message));
+          .then(() => this.$router.push({ name: 'home' }))
+          .catch(error => console.log('Ops, ', error.message)); // TODO: aplicar toast
       }
     },
     goToSignUp() {

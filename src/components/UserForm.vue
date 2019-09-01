@@ -20,6 +20,7 @@
                 :rules="[rules.required, rules.min]"
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"
+                @keyup.enter="submit"
               />
               <v-row justify="end" align="center">
                 <v-btn @click="submit">{{ submitLabel }}</v-btn>
@@ -54,8 +55,9 @@ export default {
         password: '',
       },
       rules: {
-        required: v => !!v || 'Este campo é obrigatório.',
-        min: v => (v && v.length >= 6) || 'A senha deve possuir no mínimo 6 caracteres',
+        required: value => !!value || 'Este campo é obrigatório.',
+        min: value => (value && value.length >= 6)
+          || 'A senha deve possuir no mínimo 6 caracteres',
       },
     };
   },
@@ -64,5 +66,5 @@ export default {
       return this.$emit('submit', this.form);
     },
   },
-}
+};
 </script>
