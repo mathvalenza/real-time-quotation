@@ -1,6 +1,6 @@
-const mock = {
+export default {
   by: 'default',
-  valid_key: false,
+  valid_key: true,
   results: {
     currencies: {
       source: 'BRL',
@@ -30,9 +30,9 @@ const mock = {
       },
       BTC: {
         name: 'Bitcoin',
-        buy: 42205.068,
-        sell: 42205.068,
-        variation: -0.068,
+        buy: 42081.911,
+        sell: 42081.911,
+        variation: -0.36,
       },
     },
     stocks: {
@@ -62,9 +62,86 @@ const mock = {
     available_sources: [
       'BRL',
     ],
+    bitcoin: {
+      blockchain_info: {
+        name: 'Blockchain.info',
+        format: [
+          'USD',
+          'en_US',
+        ],
+        last: 9584.49,
+        buy: 9584.49,
+        sell: 9584.49,
+        variation: -0.36,
+      },
+      coinbase: {
+        name: 'Coinbase',
+        format: [
+          'USD',
+          'en_US',
+        ],
+        last: 9587.005,
+        variation: -0.304,
+      },
+      bitstamp: {
+        name: 'BitStamp',
+        format: [
+          'USD',
+          'en_US',
+        ],
+        last: 9594.0,
+        buy: 9594.0,
+        sell: 9587.93,
+        variation: -0.343,
+      },
+      foxbit: {
+        name: 'FoxBit',
+        format: [
+          'BRL',
+          'pt_BR',
+        ],
+        last: 40469.4,
+        variation: -0.567,
+      },
+      mercadobitcoin: {
+        name: 'Mercado Bitcoin',
+        format: [
+          'BRL',
+          'pt_BR',
+        ],
+        last: 40220.00003,
+        buy: 40220.00003,
+        sell: 40409.78965,
+        variation: -0.816,
+      },
+      omnitrade: {
+        name: 'OmniTrade',
+        format: [
+          'BRL',
+          'pt_BR',
+        ],
+        last: 40770.0,
+        buy: 40770.0,
+        sell: 41199.99,
+        variation: -1.146,
+      },
+      xdex: {
+        name: 'XDEX',
+        format: [
+          'BRL',
+          'pt_BR',
+        ],
+        last: 40438.0,
+        variation: -0.397,
+      },
+    },
+    taxes: [{
+      date: '2019-08-29',
+      cdi: 5.9,
+      selic: 5.9,
+      daily_factor: 1.00022751,
+    }],
   },
   execution_time: 0.0,
   from_cache: true,
 };
-
-export default mock;
