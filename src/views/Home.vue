@@ -3,36 +3,41 @@
     <v-row>
       <v-col>
         <v-row align="center" justify="center" class="grey lighten-5" >
-          <div class="ma-6 pa-6" v-for="currency in currencies" :key="currency.name">
+          <div class="ma-6 pa-6" v-for="currency in lastCurrencies" :key="currency.name">
             <quotation-card
               data-group="Câmbio"
               :data-type="currency.name"
-              update-time="09:40"
+              :update-time="lastUpdate"
               :variation="currency.variation"
               :price="currency.buy"
-              @show-more="onShowMore(currencies, currency)"
+              @show-more="onShowMore(currency)"
             />
           </div>
-          <div class="ma-6 pa-6" v-for="bitcoin in bitcoins" :key="bitcoin.name">
+          <div class="ma-6 pa-6" v-for="bitcoin in lastBitcoins" :key="bitcoin.name">
             <quotation-card
               data-group="Bitcoin"
               :data-type="bitcoin.name"
-              update-time="09:40"
+              :update-time="lastUpdate"
               :variation="bitcoin.variation"
               :price="bitcoin.last"
-              :currency-format="bitcoin.format[0]"
-              @show-more="onShowMore(bitcoins, bitcoin)"
+              :currency-format="bitcoin.format && bitcoin.format[0]"
+              @show-more="onShowMore(bitcoin)"
             />
           </div>
         </v-row>
       </v-col>
     </v-row>
-    <history-info v-if="showHistoryInfo" :item="selectedItem" @close="toggleShowHistoryInfo" />
+    <history-info
+      v-if="showHistoryInfo"
+      :quotation-name="selectedQuotation.name"
+      :quotation-id="selectedQuotation.id"
+      @close="toggleShowHistoryInfo"
+    />
   </v-container>
 </template>
 
 <script>
-import mock from '../apiService';
+import { mapState, mapGetters } from 'vuex';
 import QuotationCard from '@/components/QuotationCard.vue';
 import HistoryInfo from '@/components/HistoryInfo.vue';
 
@@ -44,42 +49,28 @@ export default {
   },
   data() {
     return {
-      mock,
       showHistoryInfo: false,
-      selectedItem: null,
+      selectedQuotation: null,
     };
   },
   computed: {
-    currencies() {
-      const targetCurrencies = ['USD', 'EUR', 'GBP', 'ARS', 'BTC'];
-      const currencies = [];
-
-      targetCurrencies.forEach(targetCurrency => (currencies.push(
-        this.mock.results.currencies[targetCurrency],
-      )));
-
-      return currencies;
-    },
-    bitcoins() {
-      const targetBitcoins = ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'];
-      const bitcoins = [];
-
-      targetBitcoins.forEach(targetBitcoin => (bitcoins.push(
-        this.mock.results.bitcoin[targetBitcoin],
-      )));
-
-      return bitcoins;
-    },
+    ...mapState(['refreshInterval']),
+    ...mapGetters(['lastCurrencies', 'lastBitcoins', 'lastUpdate']),
+  },
+  created() {
+    this.$store.dispatch('fetchDataFromApi');
+    this.setAutomaticRefresh();
   },
   methods: {
-    onShowMore(source, item) {
-      console.log('show more info about ', item, 'in ', source);
-
-      this.selectedItem = item;
+    onShowMore(item) {
+      this.selectedQuotation = item;
       this.toggleShowHistoryInfo();
     },
     toggleShowHistoryInfo() {
       this.showHistoryInfo = !this.showHistoryInfo;
+    },
+    setAutomaticRefresh() {
+      setInterval(() => this.$store.dispatch('fetchDataFromApi'), this.refreshInterval);
     },
   },
 };

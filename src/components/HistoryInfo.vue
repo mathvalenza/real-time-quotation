@@ -2,7 +2,6 @@
   <v-dialog
     persistent
     v-model="active"
-    max-width="600px"
     @click:outside="onClose"
     @keydown.esc="onClose"
   >
@@ -11,22 +10,21 @@
         <v-card-text>
           <v-sheet color="rgba(0, 0, 0, .08)">
             <v-sparkline
-              :value="value"
+              auto-draw
+              smooth
+              show-labels
+              auto-line-width
               color="rgba(255, 255, 255, .7)"
               height="100"
               padding="24"
               stroke-linecap="round"
-              smooth
-            >
-              <template v-slot:label="item">
-                ${{ item.value }}
-              </template>
-            </v-sparkline>
+              label-size="10"
+              :value="quotationHistory"
+            />
           </v-sheet>
         </v-card-text>
-
-        <v-card-text>
-          <div class="headline">{{ item.name }}: Histórico de variação</div>
+        <v-card-text class="headline">
+          {{ quotationName }}: Histórico de variação
         </v-card-text>
       </v-container>
     </v-card>
@@ -37,21 +35,18 @@
 export default {
   name: 'HistoryInfo',
   props: {
-    item: Object,
+    quotationName: String,
+    quotationId: String,
   },
   data() {
     return {
       active: true,
-      value: [
-        423,
-        446,
-        675,
-        510,
-        590,
-        610,
-        760,
-      ],
     };
+  },
+  computed: {
+    quotationHistory() {
+      return this.$store.getters.quotationHistory(this.quotationId);
+    },
   },
   methods: {
     onClose() {
