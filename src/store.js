@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
+import firebase from 'firebase';
 import flattenDeep from 'lodash/flattenDeep';
 import filter from 'lodash/filter';
 
@@ -82,9 +83,6 @@ export default new Vuex.Store({
         targetIds: targetBitcoins,
       });
 
-      console.log('currencies: ', currencies);
-      console.log('bitcoins: ', bitcoins);
-
       commit('SET_CURRENCIES', currencies);
       commit('SET_BITCOINS', bitcoins);
 
@@ -94,6 +92,36 @@ export default new Vuex.Store({
       const updateTime = new Date().toLocaleTimeString();
 
       commit('SET_UPDATES', updateTime);
+    },
+    login(_, {
+      email, password, onSuccess, onError,
+    }) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          sessionStorage.setItem('userEmail', email);
+          onSuccess();
+        })
+        .catch((error) => {
+          console.error(error);
+          onError();
+        });
+    },
+    signUp(_, {
+      email, password, onSuccess, onError,
+    }) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+          sessionStorage.setItem('userEmail', user.email);
+          onSuccess();
+        })
+        .catch((error) => {
+          console.error(error);
+          onError();
+        });
     },
   },
 });

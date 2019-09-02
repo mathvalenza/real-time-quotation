@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     persistent
+    max-width="800px"
     v-model="active"
     @click:outside="onClose"
     @keydown.esc="onClose"

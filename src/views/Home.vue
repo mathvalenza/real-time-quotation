@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <v-row align="center" justify="center" class="grey lighten-5" >
+        <v-row align="center" justify="center" class="grey lighten-5">
           <div class="ma-6 pa-6" v-for="currency in lastCurrencies" :key="currency.name">
             <quotation-card
               data-group="Câmbio"
