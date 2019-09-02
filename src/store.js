@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import firebase from 'firebase';
 import flattenDeep from 'lodash/flattenDeep';
 import filter from 'lodash/filter';
+import get from 'lodash/get';
 
 Vue.use(Vuex);
 
@@ -21,12 +22,11 @@ export default new Vuex.Store({
     currencies: [],
     bitcoins: [],
     updates: [],
-    refreshInterval: 10000000,
+    targetCurrencies: ['USD', 'EUR', 'GBP', 'ARS', 'BTC'],
+    targetBitcoins: ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'],
+    refreshInterval: 120000,
   },
   getters: {
-    lastQuotation({ quotations }) {
-      return quotations && [...quotations].pop();
-    },
     lastUpdate({ updates }) {
       return updates && [...updates].pop();
     },
@@ -58,29 +58,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async fetchDataFromApi({ commit, dispatch }) {
+    async fetchDataFromApi({ state, commit, dispatch }) {
       const response = await axios.get(
         API_URI, {
           params: {
             key: API_KEY,
-            userCredentials: true,
           },
         },
       );
-      const newQuotation = response.data.results;
-      const targetCurrencies = ['USD', 'EUR', 'GBP', 'ARS', 'BTC'];
-      const targetBitcoins = ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'];
+
+      const newQuotation = get(response, 'data.results', []);
 
       const currencies = resolveQuotations({
         type: 'currencies',
         quotation: newQuotation,
-        targetIds: targetCurrencies,
+        targetIds: state.targetCurrencies,
       });
 
       const bitcoins = resolveQuotations({
         type: 'bitcoin',
         quotation: newQuotation,
-        targetIds: targetBitcoins,
+        targetIds: state.targetBitcoins,
       });
 
       commit('SET_CURRENCIES', currencies);
@@ -93,7 +91,7 @@ export default new Vuex.Store({
 
       commit('SET_UPDATES', updateTime);
     },
-    login(_, {
+    signIn(_, {
       email, password, onSuccess, onError,
     }) {
       firebase

@@ -39,6 +39,8 @@ export default {
           onSuccess: this.onSuccess,
           onError: this.onError,
         });
+      } else {
+        this.onError();
       }
     },
     onSuccess() {

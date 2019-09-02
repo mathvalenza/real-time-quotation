@@ -2,8 +2,8 @@
   <v-card width="330px">
     <v-list-item>
       <v-list-item-content>
-        <div class="overline mb-2 grey--text">{{ dataGroup }}</div>
-        <div class="headline mb-2">{{ dataType }}</div>
+        <div class="overline mb-2 blue--text">{{ dataGroup }}</div>
+        <div class="headline mb-2 font-weight-medium">{{ dataType }}</div>
         <v-container ma-0 pa-0>
           <v-row no-gutters justify="space-between">
             <v-col cols="4" align-self="center">
@@ -17,7 +17,7 @@
               </v-chip>
             </v-col>
             <v-col cols="8" align-self="center">
-              <div class="text-end" ma-0>
+              <div class="text-end grey--text text--darken-1" ma-0>
                 <span class="headline">{{ formatSymbol }}</span>
                 <span class="display-1">{{ price }}</span>
               </div>
@@ -60,9 +60,7 @@ export default {
         : { color: 'red', icon: 'mdi-arrow-down' };
     },
     formatSymbol() {
-      return this.currencyFormat === BRASILIAN_CURRENCY
-        ? 'R$'
-        : 'USD';
+      return this.currencyFormat === BRASILIAN_CURRENCY ? 'R$' : 'USD';
     },
   },
   methods: {

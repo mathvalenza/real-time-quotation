@@ -31,7 +31,7 @@ export default {
           this.$router.push({ name: 'login' });
           sessionStorage.removeItem('userEmail');
         })
-        .catch(error => console.log('Ops, ', error.message));
+        .catch(error => console.error(error));
     },
   },
 };

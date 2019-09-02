@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height>
-    <user-form @submit="login" form-title="Login" submit-label="Entrar">
+    <user-form @submit="onLogin" form-title="Login" submit-label="Entrar">
       <v-btn text small color="primary" @click="goToSignUp">Registrar-se</v-btn>
     </user-form>
     <v-snackbar color="red" v-model="showSnackbarError">
@@ -26,14 +26,16 @@ export default {
     };
   },
   methods: {
-    login({ email, password }) {
+    onLogin({ email, password }) {
       if (email && password) {
-        this.$store.dispatch('login', {
+        this.$store.dispatch('signIn', {
           email,
           password,
           onSuccess: this.onSuccess,
           onError: this.onError,
         });
+      } else {
+        this.onError();
       }
     },
     goToSignUp() {

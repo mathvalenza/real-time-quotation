@@ -27,6 +27,9 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-overlay :value="showOverlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
     <history-info
       v-if="showHistoryInfo"
       :quotation-name="selectedQuotation.name"
@@ -56,6 +59,9 @@ export default {
   computed: {
     ...mapState(['refreshInterval']),
     ...mapGetters(['lastCurrencies', 'lastBitcoins', 'lastUpdate']),
+    showOverlay() {
+      return !this.lastCurrencies || !this.lastBitcoins;
+    },
   },
   created() {
     this.$store.dispatch('fetchDataFromApi');
