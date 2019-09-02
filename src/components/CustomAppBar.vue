@@ -29,7 +29,7 @@ export default {
         .signOut()
         .then(() => {
           this.$router.push({ name: 'login' });
-          sessionStorage.removeItem('userEmail');
+          this.$store.dispatch('clearState');
         })
         .catch(error => console.error(error));
     },

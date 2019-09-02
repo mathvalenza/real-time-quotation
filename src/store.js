@@ -12,20 +12,22 @@ const API_KEY = 'a126fec1';
 const CORS_ANYWHERE = 'https://cors-anywhere.herokuapp.com/';
 const API_URI = `${CORS_ANYWHERE}https://api.hgbrasil.com/finance`;
 
+const getDefaultState = () => ({
+  currencies: [],
+  bitcoins: [],
+  updates: [],
+  targetCurrencies: ['USD', 'EUR', 'GBP', 'ARS', 'BTC'],
+  targetBitcoins: ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'],
+  refreshInterval: 120000,
+});
+
 const resolveQuotations = ({ quotation, type, targetIds }) => targetIds.map(targetQuotation => ({
   ...quotation[type][targetQuotation],
   id: targetQuotation,
 }));
 
 export default new Vuex.Store({
-  state: {
-    currencies: [],
-    bitcoins: [],
-    updates: [],
-    targetCurrencies: ['USD', 'EUR', 'GBP', 'ARS', 'BTC'],
-    targetBitcoins: ['foxbit', 'omnitrade', 'xdex', 'blockchain_info', 'coinbase'],
-    refreshInterval: 120000,
-  },
+  state: getDefaultState,
   getters: {
     lastUpdate({ updates }) {
       return updates && [...updates].pop();
@@ -47,14 +49,17 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SET_CURRENCIES(state, currencies) {
+    setCurrencies(state, currencies) {
       state.currencies = [...state.currencies, currencies];
     },
-    SET_BITCOINS(state, bitcoins) {
+    setBitcoins(state, bitcoins) {
       state.bitcoins = [...state.bitcoins, bitcoins];
     },
-    SET_UPDATES(state, updateTime) {
+    setUpdates(state, updateTime) {
       state.updates = [...state.updates, updateTime];
+    },
+    resetState(state) {
+      Object.assign(state, getDefaultState());
     },
   },
   actions: {
@@ -81,15 +86,15 @@ export default new Vuex.Store({
         targetIds: state.targetBitcoins,
       });
 
-      commit('SET_CURRENCIES', currencies);
-      commit('SET_BITCOINS', bitcoins);
+      commit('setCurrencies', currencies);
+      commit('setBitcoins', bitcoins);
 
       dispatch('setUpdateTime');
     },
     setUpdateTime({ commit }) {
       const updateTime = new Date().toLocaleTimeString();
 
-      commit('SET_UPDATES', updateTime);
+      commit('setUpdates', updateTime);
     },
     signIn(_, {
       email, password, onSuccess, onError,
@@ -120,6 +125,10 @@ export default new Vuex.Store({
           console.error(error);
           onError();
         });
+    },
+    clearState({ commit }) {
+      sessionStorage.removeItem('userEmail');
+      commit('resetState');
     },
   },
 });
