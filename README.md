@@ -3,7 +3,7 @@ An easy way to keep up with currencies and bitcoins.
 
 Deployed with Zeit.now [here](https://real-time-quotation-h8pki9yfn.now.sh).
 
-Things used in project: VueJS, Vuetify, Vuex, VueRouter, Axios.
+Things used in project: VueJS, Vuetify, Vuex, VueRouter, Axios and Firebase.
  
 ## Tech/framework used
 <b>Built with</b>
