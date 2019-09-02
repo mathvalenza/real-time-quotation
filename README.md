@@ -1,29 +1,34 @@
-# real-time-quotation
+## Real Time Quotations
+An easy way to keep up with currencies and bitcoins.
 
-## Project setup
-```
-npm install
-```
+Deployed with Zeit.now [here](https://real-time-quotation-h8pki9yfn.now.sh).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Things used in project: VueJS, Vuetify, Vuex, VueRouter, Axios.
+ 
+## Tech/framework used
+<b>Built with</b>
+- [VueJS](https://vuejs.org/) v3.9.3
+- [NodeJS](https://nodejs.org/en/) v10.16.1
+- [NPM](https://www.npmjs.com/) v6.9.0
+- [Vuetify](https://vuetifyjs.com/pt-BR/) v2.0.11
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Installation
+`npm install`
 
-### Run your tests
-```
-npm run test
-```
+## Run
+`npm run serve`
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Compiles and minifies for production
+`npm run build`
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## API Reference
+
+[HG Finance](https://hgbrasil.com/status/finance)
+
+## How to use?
+Clone this repository, install the dependencies and then run the project
+
+## License
+A short snippet describing the license (MIT, Apache etc)
+
+MIT © [Matheus Vinícius Valenza]()
