@@ -2,7 +2,7 @@
   <v-app-bar absolute class="primary white--text">
     <v-toolbar-title>Real Time Quotation</v-toolbar-title>
     <div class="flex-grow-1"></div>
-    {{ helloMessage }}
+    <v-toolbar-title class="subtitle-2">{{ helloMessage }}</v-toolbar-title>
     <v-btn class="white--text" icon :disabled="!isInHome" @click="signOut">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
