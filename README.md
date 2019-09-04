@@ -4,6 +4,8 @@ An easy way to keep up with currencies and bitcoins.
 Deployed with Zeit.now [here](https://real-time-quotation-h8pki9yfn.now.sh).
 
 Things used in project: VueJS, Vuetify, Vuex, VueRouter, Axios and Firebase.
+
+![image](https://user-images.githubusercontent.com/34667046/64291358-586d7080-cf3e-11e9-9c6b-75776da98b84.png)
  
 ## Tech/framework used
 <b>Built with</b>
